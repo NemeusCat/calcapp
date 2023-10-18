@@ -1,7 +1,7 @@
 package ru.dev.calcapp;
 
 import jakarta.persistence.*;
-
+// Сущность , для хранения с помощью ORM
 @Entity
 @Table(name = "operations")
 public class OperationModel {
