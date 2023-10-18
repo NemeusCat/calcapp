@@ -7,33 +7,57 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.0.0/dist/css/materialize.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.0.0/dist/js/materialize.min.js"></script>
+    <script th:inline="javascript">
+        function submitOperationForm(operation) {
+            var formData = $('#' + operation + 'Form').serialize();
+            $.ajax({
+                type: 'GET',
+                url: '/' + operation,
+                data: formData,
+                success: function(data) {
+                    $('#result').text(data.result);
+                    $('.history-container').html(data.history);
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 <nav class="menu">
     <a href="#" class="brand-logo">Калькулятор</a>
 </nav>
 
-<form action="#" method="get">
+<!-- Форма для сложения с изменениями для AJAX -->
+<form id="addForm" th:action="@{/add}" method="get" onsubmit="submitOperationForm('add'); return false;">
     <label for="numbers">Введите числа (разделитель запятая):</label>
     <input type="text" id="numbers" name="numbers" th:value="${numbers}" required>
-
-    <button type="submit" th:formaction="@{/add}">сложить</button>
-    <button type="submit" th:formaction="@{/sub}">Вычесть</button>
-    <button type="submit" th:formaction="@{/dupe}">Умножить</button>
-
+    <button type="submit">Сложить</button>
 </form>
-<form action="#" method="get">
-    <!-- Поля ввода для комбо-операции -->
-    <label for="comboNumbers">Введите три числа через запятую:(комбо операция - умножение первых двух чисел и сложение с 3им</label>
-    <input type="text" id="comboNumbers" name="comboNumbers" th:value="${comboNumbers}" th:onchange="changeSeparator()" required>
 
-    <!-- Кнопка для выполнения комбо-операции -->
+<!-- Форма для вычитания с изменениями для AJAX -->
+<form id="subForm" th:action="@{/sub}" method="get" onsubmit="submitOperationForm('sub'); return false;">
+    <label for="numbers">Введите числа (разделитель запятая):</label>
+    <input type="text" id="numbers" name="numbers" th:value="${numbers}" required>
+    <button type="submit">Вычесть</button>
+</form>
+
+<!-- Форма для умножения с изменениями для AJAX -->
+<form id="dupeForm" th:action="@{/dupe}" method="get" onsubmit="submitOperationForm('dupe'); return false;">
+    <label for="numbers">Введите числа (разделитель запятая):</label>
+    <input type="text" id="numbers" name="numbers" th:value="${numbers}" required>
+    <button type="submit">Умножить</button>
+</form>
+
+<!-- Форма для комбо с изменениями для AJAX -->
+<form id="comboForm" action="#" method="get" onsubmit="submitOperationForm('combo'); return false;">
+    <label for="comboNumbers">Введите три числа через запятую (комбо операция - умножение первых двух чисел и сложение с 3им)</label>
+    <input type="text" id="comboNumbers" name="comboNumbers" th:value="${comboNumbers}" th:onchange="changeSeparator()" required>
     <button type="submit" th:formaction="@{/combo}">Выполнить комбо</button>
 </form>
 
-<h2>Результат: <span th:text="${result}"></span></h2>
+<!-- Отображение результата и истории операций -->
+<h2>Результат: <span id="result" th:text="${result}"></span></h2>
 <h2>История операций</h2>
-<div th:replace="fragments/history-template :: history"></div>
-</div>
+<div class="history-container" th:replace="~{fragments/history-template :: history}"></div>
 </body>
 </html>
