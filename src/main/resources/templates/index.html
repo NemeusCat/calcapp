@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.0.0/dist/css/materialize.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.0.0/dist/js/materialize.min.js"></script>
+</head>
+<body>
+<nav class="menu">
+    <a href="#" class="brand-logo">Калькулятор</a>
+</nav>
+
+<form action="#" method="get">
+    <label for="numbers">Введите числа (разделитель запятая):</label>
+    <input type="text" id="numbers" name="numbers" th:value="${numbers}" required>
+
+    <button type="submit" th:formaction="@{/add}">сложить</button>
+    <button type="submit" th:formaction="@{/sub}">Вычесть</button>
+    <button type="submit" th:formaction="@{/dupe}">Умножить</button>
+
+</form>
+<form action="#" method="get">
+    <!-- Поля ввода для комбо-операции -->
+    <label for="comboNumbers">Введите три числа через запятую:(комбо операция - умножение первых двух чисел и сложение с 3им</label>
+    <input type="text" id="comboNumbers" name="comboNumbers" th:value="${comboNumbers}" th:onchange="changeSeparator()" required>
+
+    <!-- Кнопка для выполнения комбо-операции -->
+    <button type="submit" th:formaction="@{/combo}">Выполнить комбо</button>
+</form>
+
+<h2>Результат: <span th:text="${result}"></span></h2>
+<h2>История операций</h2>
+<div th:replace="fragments/history-template :: history"></div>
+</div>
+</body>
+</html>

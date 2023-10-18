@@ -1,0 +1,17 @@
+<!-- history-template.html -->
+<div th:fragment="history">
+    <table class="oper-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Операция</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="operation : ${history}">
+            <td th:text="${operation.id}"></td>
+            <td th:text="${operation.operationName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
