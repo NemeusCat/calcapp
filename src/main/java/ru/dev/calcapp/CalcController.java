@@ -27,6 +27,8 @@ public class CalcController {
         model.addAttribute("result", res);
         OperationModel operationModel = new OperationModel();
         operationModel.setOperationName("Сложение: " + Arrays.toString(numbers) + " Результат:" + res);
+        List<OperationModel> history = operationModelRepository.findAll();
+        model.addAttribute("history", history);
         operationModelRepository.save(operationModel);
         return "index";
     }
@@ -40,6 +42,8 @@ public class CalcController {
         model.addAttribute("result", res);
         OperationModel operationModel = new OperationModel();
         operationModel.setOperationName("Вычитание: " + Arrays.toString(numbers) + " Результат:" + res);
+        List<OperationModel> history = operationModelRepository.findAll();
+        model.addAttribute("history", history);
         operationModelRepository.save(operationModel);
         return "index";
     }
@@ -53,6 +57,8 @@ public class CalcController {
         model.addAttribute("result", res);
         OperationModel operationModel = new OperationModel();
         operationModel.setOperationName("Умножение: " + Arrays.toString(numbers) + " Результат:" + res);
+        List<OperationModel> history = operationModelRepository.findAll();
+        model.addAttribute("history", history);
         operationModelRepository.save(operationModel);
         return "index";
     }
@@ -77,12 +83,11 @@ public class CalcController {
         return "index";
     }
 // Вывод истории операций
-    @GetMapping({"*"})
-    public ModelAndView showHistory() {
+    @GetMapping("/")
+    public String showHistory(Model model) {
         List<OperationModel> history = operationModelRepository.findAll();
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("history", history);
-        return modelAndView;
+        model.addAttribute("history", history);
+        return "index";
     }
 
 
