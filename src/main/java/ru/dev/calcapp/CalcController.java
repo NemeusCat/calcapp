@@ -76,7 +76,7 @@ public class CalcController {
         operationModelRepository.save(operationModel);
         return "index";
     }
-
+// Вывод истории операций
     @GetMapping("/")
     public ModelAndView showHistory() {
         List<OperationModel> history = operationModelRepository.findAll();
